@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title #{course} come
+  body
+    h1 #{course}
+    h2 转义
+    - var data = "text"
+    - var htmlData = "<script>alert('ssss');</script>"
+    p #{data}
+    p #{htmlData}
+    p !{htmlData}
+    p= data
+    p= htmlData
+    p!= htmlData
+    p \#{htmlData}
+    p \!{htmlData}
+
+    //- var newData = "sss"
+    input(value="#{newData}")
+    input(value=newData)

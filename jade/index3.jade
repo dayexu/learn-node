@@ -1,0 +1,121 @@
+extends layout
+//相当于重写父类里面的方法
+block desc
+  
+
+block content
+  include title.html
+
+
+  h3 markdown
+  :markdown
+    Hi,this is **jade** [link](https://www.baidu.com)
+
+  h3 less
+  //style
+    :less
+      body {
+        color : #ccc;
+      }
+
+  h3 coffee
+  script
+    :coffee
+      console.log "this is jade coffee"
+
+  h3 for
+  - var data = {course : "jade",level : "high"}
+  - for(var k in data)
+    p= data[k]
+  
+  h3 each
+  - each value,key in data
+    p #{key} : #{value}
+  
+  h3 each array
+  - var array = ["1","2","jade","nodejs"]
+  - each item in array
+    p= item 
+
+  h3 each jsonarray
+  - var jsonArray = [{name : "jade",level:"high",items:[1,2,3]},{name:"nodejs",level:"high",items:[1,4,6,7]}]
+  dl
+    //- .length > 0 ? jsonArray : [{name:"",level:""items:[""]}]
+    - each json in jsonArray
+      dt #{json.name} - #{json.level}
+      - each item in json.items
+        dd= item
+
+  h3 while
+  - var n = 0
+  ul
+    while n < 5
+      li= n++
+
+  h3 if else
+  - var isTure = true
+  - var lessons = ["jade","node"]
+  if lessons
+    if lessons.length > 2
+      p more than 2: #{lessons.join(",")}
+    else if lessons.length > 1
+      p more than 1: #{lessons.join(",")}
+    else
+      p no lesson
+  else
+    p no lesson
+
+  h3 unless
+  unless !isTure
+    p #{lessons.length}
+
+  h3 case
+  - var name = "express"
+  case name
+    when "java"
+    when "node"
+      p Hi node
+    when "jade"
+      p Hi jade
+    when "express" : p Hi express
+
+  h3 mixin(有重复使用的代码区块时)
+  mixin lesson
+    p Hi mixin
+  +lesson
+  mixin study(name,courses)
+    p= name
+    ul.courses
+      each course in courses
+        li= course
+  +study("xc",["nodejs","jade"])
+  h3 mixin(嵌套调用)
+  mixin group(student)
+    h4= student.name
+    +study(student.name,student.courses)
+  +group({name : xc,courses : ["nodejs","jade"]})
+
+  mixin team(slogon)
+    h4= slogon
+    if block
+      block
+    else
+      p no block
+  +team("we")
+    p like study
+
+  h3 mixin 传递属性
+  mixin attr(name)
+    p(class != attributes.class) #{name}
+  +attr("attr")(class="magic")
+  mixin attrs(name)
+    p&attributes(attributes) #{name}
+  +attrs("attrs")(class="magic",id="attrid")
+  h3 mixin 多参数
+  mixin magic(name,...params)
+    ul(class = "#{name}")
+      each param in params
+        li= param
+  +magic("magic","nodejs","jade","....")
+
+  
